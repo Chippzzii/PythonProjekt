@@ -110,7 +110,7 @@ class gui:
         nachname = self.nachnameEntry.get()
         gebDatum = self.gebDatumEntry.get()
         print("Daten:", vorname, nachname, gebDatum)
-        sql = "UPDATE mitarbeiter SET Vorname = '" + vorname + "', Nachname = '" + nachname +"', Geburtsdatum = '" + gebDatum +"' WHERE PersonalNr " + nummer
+        sql = "UPDATE mitarbeiter SET Vorname = '%s', Nachname = '%s', Geburtsdatum = '%s' WHERE PersonalNr = " + nummer
         print(sql)
         cursor.execute(sql % (vorname, nachname, gebDatum))
         cursor.execute("COMMIT;")
@@ -139,8 +139,8 @@ class gui:
         # ---------------------------------------------------------
         # Frame und Widgets für die Eingabe
         eingabeFrame = tk.Frame(width=200, height=348)
-
-        self.nummerEntry = tk.Entry(master=eingabeFrame, width=20, font="ComicSans")
+        #master bestimmt zugehörigkeit
+        self.nummerEntry = tk.Entry(master=eingabeFrame, width=20, font="ComicSans") #Schriftart bestimmt größe des Entry Fensters
         self.vornameEntry = tk.Entry(master=eingabeFrame, width=20, font="ComicSans")
         self.nachnameEntry = tk.Entry(master=eingabeFrame, width=20, font="ComicSans")
         self.gebDatumEntry = tk.Entry(master=eingabeFrame, width=20, font="ComicSans")

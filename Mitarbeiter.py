@@ -12,6 +12,24 @@ db = mysql.connector.Connect(
 cursor = db.cursor()
 
 
+def deleteAll(self):
+    for item in self.tree.get_children():
+        if item != '':
+            self.tree.delete(item)
+
+def preLoadData():
+    sql = "SELECT * FROM mitarbeiter"
+    cursor.execute(sql)
+    column_names = [description[0] for description in cursor.description]
+    data = [row for row in cursor]
+    return column_names, data
+
+def inTreviewSchreiben(treeview):
+    column_names, data = preLoadData()
+    for i, row in enumerate(data):
+        treeview.insert("", "end", text=str(i+1), values=row)
+
+
 class gui:
     # ToDo TreeView überschreiben
     def addButtonAction(self):
@@ -30,6 +48,7 @@ class gui:
         cursor.execute("COMMIT;")
 
     def searchButtonAction(self):
+        deleteAll(self)
         if self.nummerEntry.get():
             nummer = self.nummerEntry.get()
             sql = "SELECT * FROM mitarbeiter WHERE PersonalNr = " + nummer
@@ -140,6 +159,8 @@ class gui:
         self.nachnameEntry.insert(0, platzhalter[2])
         self.gebDatumEntry.insert(0, platzhalter[3])
 
+    preLoadData()
+
 
     def __init__(self):
         mitarbeiter = tk.Tk()
@@ -177,8 +198,6 @@ class gui:
         self.tree.column('#2', width=90)
         self.tree.column('#3', width=95)
         self.tree.column('#4', width=110)
-        # tree.insert('', '0', text="Christian",
-        #             values=('1', "Christian", "Hülsmann", "Juli"))  # insert durch Funktion ersetzen
 
         # ---------------------------------------------------------
         # PlaceBereich
@@ -195,10 +214,12 @@ class gui:
         saveButton.place(x=10, y=275)
         deleteButton.place(x=108, y=275)
         self.tree.place(x=5, y=35)
-
         eingabeFrame.place(x=1, y=1)
         anzeigeFrame.place(x=202, y=1)
+        inTreviewSchreiben(self.tree)
         mitarbeiter.mainloop()
+
+
 
 
 gui()

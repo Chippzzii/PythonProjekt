@@ -137,15 +137,18 @@ class gui:
         self.gebDatumEntry.delete(0, END)
 
     def deleteButtonAction(self):
-        nummer = self.nummerEntry.get()
-        sql = "DELETE from mitarbeiter WHERE PersonalNr = %s"
-        print(sql % (nummer))
-        cursor.execute(sql % (nummer))
-        cursor.execute("COMMIT;")
-        self.nummerEntry.delete(0, END)
-        self.vornameEntry.delete(0, END)
-        self.nachnameEntry.delete(0, END)
-        self.gebDatumEntry.delete(0, END)
+        if(self.nummerEntry.get()):
+            nummer = self.nummerEntry.get()
+            sql = "DELETE from mitarbeiter WHERE PersonalNr = %s"
+            print(sql % (nummer))
+            cursor.execute(sql % (nummer))
+            cursor.execute("COMMIT;")
+            self.nummerEntry.delete(0, END)
+            self.vornameEntry.delete(0, END)
+            self.nachnameEntry.delete(0, END)
+            self.gebDatumEntry.delete(0, END)
+        else:
+            print("Leere Zeile!")
 
     def treeSelection(self, event):
         temp = self.tree.selection()[0]
@@ -158,9 +161,6 @@ class gui:
         self.vornameEntry.insert(0, platzhalter[1])
         self.nachnameEntry.insert(0, platzhalter[2])
         self.gebDatumEntry.insert(0, platzhalter[3])
-
-    preLoadData()
-
 
     def __init__(self):
         mitarbeiter = tk.Tk()
@@ -216,10 +216,8 @@ class gui:
         self.tree.place(x=5, y=35)
         eingabeFrame.place(x=1, y=1)
         anzeigeFrame.place(x=202, y=1)
+        #PreloadDaten
         inTreviewSchreiben(self.tree)
         mitarbeiter.mainloop()
-
-
-
 
 gui()

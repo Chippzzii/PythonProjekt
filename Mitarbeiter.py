@@ -109,11 +109,20 @@ class gui:
         vorname = self.vornameEntry.get()
         nachname = self.nachnameEntry.get()
         gebDatum = self.gebDatumEntry.get()
-        print("Daten:", vorname, nachname, gebDatum)
         sql = "UPDATE mitarbeiter SET Vorname = '%s', Nachname = '%s', Geburtsdatum = '%s' WHERE PersonalNr = " + nummer
-        print(sql)
         cursor.execute(sql % (vorname, nachname, gebDatum))
         cursor.execute("COMMIT;")
+        self.nummerEntry.delete(0, END)
+        self.vornameEntry.delete(0, END)
+        self.nachnameEntry.delete(0, END)
+        self.gebDatumEntry.delete(0, END)
+
+    def deleteButtonAction(self):
+        nummer = self.nummerEntry.get()
+        sql = "DELETE from mitarbeiter WHERE Personalnummer =%so"
+        print(sql, (nummer))
+        # cursor.execute(sql)
+        # cursor.execute("COMMIT;")
         self.nummerEntry.delete(0, END)
         self.vornameEntry.delete(0, END)
         self.nachnameEntry.delete(0, END)
@@ -130,6 +139,7 @@ class gui:
         self.vornameEntry.insert(0, platzhalter[1])
         self.nachnameEntry.insert(0, platzhalter[2])
         self.gebDatumEntry.insert(0, platzhalter[3])
+
 
     def __init__(self):
         mitarbeiter = tk.Tk()
@@ -151,7 +161,7 @@ class gui:
         addButton = tk.Button(master=eingabeFrame, text="Hinzufügen", width=11, command=self.addButtonAction)
         searchButton = tk.Button(master=eingabeFrame, text="Suchen", width=11, command=self.searchButtonAction)
         saveButton = tk.Button(master=eingabeFrame, text="Speichern", width=11, command=self.saveButtonAction)
-        deleteButton = tk.Button(master=eingabeFrame, text="Löschen", width=11)
+        deleteButton = tk.Button(master=eingabeFrame, text="Löschen", width=11, command=self.deleteButtonAction)
 
         # ---------------------------------------------------------
         # Frame für Buttons und AnzigeListe der Personen

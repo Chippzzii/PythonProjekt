@@ -35,7 +35,7 @@ class gui:
     def addButtonAction(self):
         # ToDo: Überprüfung auf Doppelte Datensätze
         # nummer = self.nummerEntry.get()
-        if(self.nummerEntry.get() != None and self.vornameEntry.get() != None and self.nachnameEntry.get() != None and self.gebDatumEntry.get() != None):
+        if(self.nummerEntry.get() != "" and self.vornameEntry.get() != "" and self.nachnameEntry.get() != "" and self.gebDatumEntry.get() != ""):
             vorname = self.vornameEntry.get()
             nachname = self.nachnameEntry.get()
             gebDatum = self.gebDatumEntry.get()

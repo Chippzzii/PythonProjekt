@@ -119,10 +119,10 @@ class gui:
 
     def deleteButtonAction(self):
         nummer = self.nummerEntry.get()
-        sql = "DELETE from mitarbeiter WHERE Personalnummer =%so"
-        print(sql, (nummer))
-        # cursor.execute(sql)
-        # cursor.execute("COMMIT;")
+        sql = "DELETE from mitarbeiter WHERE PersonalNr = %s"
+        print(sql % (nummer))
+        cursor.execute(sql % (nummer))
+        cursor.execute("COMMIT;")
         self.nummerEntry.delete(0, END)
         self.vornameEntry.delete(0, END)
         self.nachnameEntry.delete(0, END)

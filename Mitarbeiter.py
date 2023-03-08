@@ -37,17 +37,102 @@ class gui:
             cursor.execute(sql)
             platzhalter = []
             for mitarbeiter in cursor:
-                print(mitarbeiter)
                 platzhalter.append(mitarbeiter)
-
             persNummer = platzhalter[0][0]
             vorname = platzhalter[0][1]
             nachname = platzhalter[0][2]
             gebDatum = platzhalter[0][3]
 
-            print(persNummer, vorname, nachname, gebDatum)
+        if self.vornameEntry.get():
+            vorname = self.vornameEntry.get()
+            sql = "SELECT * FROM mitarbeiter WHERE Vorname = '" + vorname + "'"
+            cursor.execute(sql)
+            platzhalter = []
+            for mitarbeiter in cursor:
+                platzhalter.append(mitarbeiter)
+            persNummer = platzhalter[0][0]
+            vorname = platzhalter[0][1]
+            nachname = platzhalter[0][2]
+            gebDatum = platzhalter[0][3]
 
+        if self.nachnameEntry.get():
+            nachname = self.nachnameEntry.get()
+            sql = "SELECT * FROM mitarbeiter WHERE Vorname = '" + nachname + "'"
+            cursor.execute(sql)
+            platzhalter = []
+            for mitarbeiter in cursor:
+                platzhalter.append(mitarbeiter)
+            persNummer = platzhalter[0][0]
+            vorname = platzhalter[0][1]
+            nachname = platzhalter[0][2]
+            gebDatum = platzhalter[0][3]
 
+        if self.gebDatumEntry.get():
+            gebDatum = self.gebDatumEntry.get()
+            sql = "SELECT * FROM mitarbeiter WHERE Vorname = '" + gebDatum + "'"
+            cursor.execute(sql)
+            platzhalter = []
+            for mitarbeiter in cursor:
+                platzhalter.append(mitarbeiter)
+            persNummer = platzhalter[0][0]
+            vorname = platzhalter[0][1]
+            nachname = platzhalter[0][2]
+            gebDatum = platzhalter[0][3]
+
+        self.nummerEntry.insert(0, persNummer)
+        self.vornameEntry.insert(0, vorname)
+        self.nachnameEntry.insert(0, nachname)
+        self.gebDatumEntry.insert(0, gebDatum)
+
+        # if self.nummerEntry.get():
+        #
+        #     nummer = self.nummerEntry.get()
+        #     sql = "SELECT * FROM mitarbeiter WHERE PersonalNr = " + nummer
+        #     cursor.execute(sql)
+        #
+            # platzhalter = []
+            # for mitarbeiter in cursor:
+            #     platzhalter.append(mitarbeiter)
+        #
+        #     self.nummerEntry.delete(0, END)
+        #     self.vornameEntry.delete(0, END)
+        #     self.nachnameEntry.delete(0, END)
+        #     self.gebDatumEntry.delete(0, END)
+        #
+            # persNummer = platzhalter[0][0]
+            # vorname = platzhalter[0][1]
+            # nachname = platzhalter[0][2]
+            # gebDatum = platzhalter[0][3]
+        #
+        # self.nummerEntry.insert(0, persNummer)
+        # self.vornameEntry.insert(0, vorname)
+        # self.nachnameEntry.insert(0, nachname)
+        # self.gebDatumEntry.insert(0, gebDatum)
+        #
+        # if self.vornameEntry.get():
+        #     surname = self.vornameEntry.get()
+        #     print(surname)
+        #     sql = "SELECT * FROM mitarbeiter WHERE Vorname = '" + surname + "'"
+        #     cursor.execute(sql)
+        #     print(sql)
+        #     platzhalter = []
+        #     for mitarbeiter in cursor:
+        #         platzhalter.append(mitarbeiter)
+        #
+        #     self.nummerEntry.delete(0, END)
+        #     self.vornameEntry.delete(0, END)
+        #     self.nachnameEntry.delete(0, END)
+        #     self.gebDatumEntry.delete(0, END)
+        #
+        #     persNummer = platzhalter[0][0]
+        #     vorname = platzhalter[0][1]
+        #     nachname = platzhalter[0][2]
+        #     gebDatum = platzhalter[0][3]
+        #
+        #     self.nummerEntry.insert(0, persNummer)
+        #     self.vornameEntry.insert(0, vorname)
+        #     self.nachnameEntry.insert(0, nachname)
+        #     self.gebDatumEntry.insert(0, gebDatum)
 
     def __init__(self):
         mitarbeiter = tk.Tk()

@@ -40,10 +40,12 @@ class gui:
                 print(mitarbeiter)
                 platzhalter.append(mitarbeiter)
 
+            persNummer = platzhalter[0][0]
+            vorname = platzhalter[0][1]
+            nachname = platzhalter[0][2]
+            gebDatum = platzhalter[0][3]
 
-
-
-
+            print(persNummer, vorname, nachname, gebDatum)
 
 
 

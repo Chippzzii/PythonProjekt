@@ -35,17 +35,21 @@ class gui:
     def addButtonAction(self):
         # ToDo: Überprüfung auf Doppelte Datensätze
         # nummer = self.nummerEntry.get()
-        vorname = self.vornameEntry.get()
-        nachname = self.nachnameEntry.get()
-        gebDatum = self.gebDatumEntry.get()
-        print("Daten:", vorname, nachname, gebDatum)
-        self.nummerEntry.delete(0, END)
-        self.vornameEntry.delete(0, END)
-        self.nachnameEntry.delete(0, END)
-        self.gebDatumEntry.delete(0, END)
-        sql = "INSERT INTO mitarbeiter(Vorname, Nachname, Geburtsdatum) VALUES(%s, %s, %s)"
-        cursor.execute(sql, (vorname, nachname, gebDatum))
-        cursor.execute("COMMIT;")
+        if(self.nummerEntry.get() != None and self.vornameEntry.get() != None and self.nachnameEntry.get() != None and self.gebDatumEntry.get() != None):
+            vorname = self.vornameEntry.get()
+            nachname = self.nachnameEntry.get()
+            gebDatum = self.gebDatumEntry.get()
+            print("Daten:", vorname, nachname, gebDatum)
+            self.nummerEntry.delete(0, END)
+            self.vornameEntry.delete(0, END)
+            self.nachnameEntry.delete(0, END)
+            self.gebDatumEntry.delete(0, END)
+            sql = "INSERT INTO mitarbeiter(Vorname, Nachname, Geburtsdatum) VALUES(%s, %s, %s)"
+            cursor.execute(sql, (vorname, nachname, gebDatum))
+            cursor.execute("COMMIT;")
+        else:
+            print("Leere Eingabe")
+
 
     def searchButtonAction(self):
         deleteAll(self)

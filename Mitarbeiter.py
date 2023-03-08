@@ -42,6 +42,7 @@ class gui:
             vorname = platzhalter[0][1]
             nachname = platzhalter[0][2]
             gebDatum = platzhalter[0][3]
+            self.tree.insert('', 0, values=(persNummer, vorname, nachname, gebDatum))
 
         if self.vornameEntry.get():
             vorname = self.vornameEntry.get()
@@ -54,10 +55,11 @@ class gui:
             vorname = platzhalter[0][1]
             nachname = platzhalter[0][2]
             gebDatum = platzhalter[0][3]
+            self.tree.insert('', 0, values=(persNummer, vorname, nachname, gebDatum))
 
         if self.nachnameEntry.get():
             nachname = self.nachnameEntry.get()
-            sql = "SELECT * FROM mitarbeiter WHERE Vorname = '" + nachname + "'"
+            sql = "SELECT * FROM mitarbeiter WHERE Nachname = '" + nachname + "'"
             cursor.execute(sql)
             platzhalter = []
             for mitarbeiter in cursor:
@@ -66,10 +68,11 @@ class gui:
             vorname = platzhalter[0][1]
             nachname = platzhalter[0][2]
             gebDatum = platzhalter[0][3]
+            self.tree.insert('', 0, values=(persNummer, vorname, nachname, gebDatum))
 
         if self.gebDatumEntry.get():
             gebDatum = self.gebDatumEntry.get()
-            sql = "SELECT * FROM mitarbeiter WHERE Vorname = '" + gebDatum + "'"
+            sql = "SELECT * FROM mitarbeiter WHERE Geburtsdatum = '" + gebDatum + "'"
             cursor.execute(sql)
             platzhalter = []
             for mitarbeiter in cursor:
@@ -78,61 +81,26 @@ class gui:
             vorname = platzhalter[0][1]
             nachname = platzhalter[0][2]
             gebDatum = platzhalter[0][3]
+            self.tree.insert('', 0, values=(persNummer, vorname, nachname, gebDatum))
 
-        self.nummerEntry.insert(0, persNummer)
-        self.vornameEntry.insert(0, vorname)
-        self.nachnameEntry.insert(0, nachname)
-        self.gebDatumEntry.insert(0, gebDatum)
+        self.nummerEntry.delete(0, END)
+        self.vornameEntry.delete(0, END)
+        self.nachnameEntry.delete(0, END)
+        self.gebDatumEntry.delete(0, END)
 
-        # if self.nummerEntry.get():
-        #
-        #     nummer = self.nummerEntry.get()
-        #     sql = "SELECT * FROM mitarbeiter WHERE PersonalNr = " + nummer
-        #     cursor.execute(sql)
-        #
-            # platzhalter = []
-            # for mitarbeiter in cursor:
-            #     platzhalter.append(mitarbeiter)
-        #
-        #     self.nummerEntry.delete(0, END)
-        #     self.vornameEntry.delete(0, END)
-        #     self.nachnameEntry.delete(0, END)
-        #     self.gebDatumEntry.delete(0, END)
-        #
-            # persNummer = platzhalter[0][0]
-            # vorname = platzhalter[0][1]
-            # nachname = platzhalter[0][2]
-            # gebDatum = platzhalter[0][3]
-        #
-        # self.nummerEntry.insert(0, persNummer)
-        # self.vornameEntry.insert(0, vorname)
-        # self.nachnameEntry.insert(0, nachname)
-        # self.gebDatumEntry.insert(0, gebDatum)
-        #
-        # if self.vornameEntry.get():
-        #     surname = self.vornameEntry.get()
-        #     print(surname)
-        #     sql = "SELECT * FROM mitarbeiter WHERE Vorname = '" + surname + "'"
-        #     cursor.execute(sql)
-        #     print(sql)
-        #     platzhalter = []
-        #     for mitarbeiter in cursor:
-        #         platzhalter.append(mitarbeiter)
-        #
-        #     self.nummerEntry.delete(0, END)
-        #     self.vornameEntry.delete(0, END)
-        #     self.nachnameEntry.delete(0, END)
-        #     self.gebDatumEntry.delete(0, END)
-        #
-        #     persNummer = platzhalter[0][0]
-        #     vorname = platzhalter[0][1]
-        #     nachname = platzhalter[0][2]
-        #     gebDatum = platzhalter[0][3]
-        #
-        #     self.nummerEntry.insert(0, persNummer)
-        #     self.vornameEntry.insert(0, vorname)
-        #     self.nachnameEntry.insert(0, nachname)
-        #     self.gebDatumEntry.insert(0, gebDatum)
+    def saveButtonAction(self):
+        nummer = self.nummerEntry.get()
+        vorname = self.vornameEntry.get()
+        nachname = self.nachnameEntry.get()
+        gebDatum = self.gebDatumEntry.get()
+        print("Daten:", vorname, nachname, gebDatum)
+        self.nummerEntry.delete(0, END)
+        self.vornameEntry.delete(0, END)
+        self.nachnameEntry.delete(0, END)
+        self.gebDatumEntry.delete(0, END)
+        sql = "UPDATE mitarbeiter SET Vorname = %s, Nachname = %s, Geburtsdatum = %s WHERE PersonalNr " + nummer
+        cursor.execute(sql % (vorname, nachname, gebDatum))
+        cursor.execute("COMMIT;")
 
     def __init__(self):
         mitarbeiter = tk.Tk()
@@ -153,24 +121,24 @@ class gui:
         gebDatumLabel = tk.Label(master=eingabeFrame, text="Geburtsdatum")
         addButton = tk.Button(master=eingabeFrame, text="Hinzufügen", width=11, command=self.addButtonAction)
         searchButton = tk.Button(master=eingabeFrame, text="Suchen", width=11, command=self.searchButtonAction)
-        saveButton = tk.Button(master=eingabeFrame, text="Speichern", width=11)
+        saveButton = tk.Button(master=eingabeFrame, text="Speichern", width=11, command=self.saveButtonAction)
         deleteButton = tk.Button(master=eingabeFrame, text="Löschen", width=11)
 
         # ---------------------------------------------------------
         # Frame für Buttons und AnzigeListe der Personen
         anzeigeFrame = tk.Frame(width=397, height=348)
         columns = ('Nummer', 'Vorname', 'Nachname', 'Geburtsdatum')
-        tree = ttk.Treeview(master=anzeigeFrame, columns=columns, show='headings', height=12)
-        tree.heading('Nummer', text='Nummer', anchor='w')
-        tree.heading('Vorname', text='Vorname', anchor='w')
-        tree.heading('Nachname', text='Nachname', anchor='w')
-        tree.heading('Geburtsdatum', text='Geburtsdatum', anchor='w')
-        tree.column('#1', width=90)
-        tree.column('#2', width=90)
-        tree.column('#3', width=95)
-        tree.column('#4', width=110)
-        tree.insert('', '0', text="Christian",
-                    values=('1', "Christian", "Hülsmann", "Juli"))  # insert durch Funktion ersetzen
+        self.tree = ttk.Treeview(master=anzeigeFrame, columns=columns, show='headings', height=12)
+        self.tree.heading('Nummer', text='Nummer', anchor='w')
+        self.tree.heading('Vorname', text='Vorname', anchor='w')
+        self.tree.heading('Nachname', text='Nachname', anchor='w')
+        self.tree.heading('Geburtsdatum', text='Geburtsdatum', anchor='w')
+        self.tree.column('#1', width=90)
+        self.tree.column('#2', width=90)
+        self.tree.column('#3', width=95)
+        self.tree.column('#4', width=110)
+        # tree.insert('', '0', text="Christian",
+        #             values=('1', "Christian", "Hülsmann", "Juli"))  # insert durch Funktion ersetzen
 
         # ---------------------------------------------------------
         # PlaceBereich
@@ -186,7 +154,7 @@ class gui:
         searchButton.place(x=108, y=245)
         saveButton.place(x=10, y=275)
         deleteButton.place(x=108, y=275)
-        tree.place(x=5, y=35)
+        self.tree.place(x=5, y=35)
 
         eingabeFrame.place(x=1, y=1)
         anzeigeFrame.place(x=202, y=1)

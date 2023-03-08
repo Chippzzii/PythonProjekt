@@ -6,7 +6,7 @@ mitarbeiter.minsize(width=600, height=300)
 mitarbeiter.resizable(width=False, height=False)
 #---------------------------------------------------------
 #Frame und Widgets für die Eingabe
-eingabeFrame = tk.Frame(width=200, height=298, bg="red")
+eingabeFrame = tk.Frame(width=200, height=298)
 nummerEntry = tk.Entry(master=eingabeFrame, width=20, font="ComicSans")
 vornameEntry = tk.Entry(master=eingabeFrame, width=20, font="ComicSans")
 nachnameEntry = tk.Entry(master=eingabeFrame, width=20, font="ComicSans")
@@ -15,10 +15,12 @@ vornameLabel = tk.Label(master=eingabeFrame, text="Vorname")
 nachnameLabel = tk.Label(master=eingabeFrame, text="Nachname")
 nummerLabel = tk.Label(master=eingabeFrame, text="Laufende Nummer")
 gebDatumLabel = tk.Label(master=eingabeFrame, text="Geburtsdatum")
+addButton = tk.Button(master=eingabeFrame, text="Hinzufügen" ,width=11)
+searchButton = tk.Button(master=eingabeFrame,text="Suchen", width=11)
 
 #---------------------------------------------------------
 #Frame für Buttons und AnzigeListe der Personen
-anzeigeFrame = tk.Frame(width=397, height=298, bg="red")
+anzeigeFrame = tk.Frame(width=397, height=298)
 anzeigeBox = tk.Listbox(master=anzeigeFrame)
 anzeigeBox.place(x=5, y=5)
 
@@ -33,6 +35,8 @@ nachnameLabel.place(x=10, y=130)
 nachnameEntry.place(x=10, y=155)
 gebDatumLabel.place(x=10, y=180)
 gebDatumEntry.place(x=10, y=205)
+addButton.place(x=10, y=245)
+searchButton.place(x=108, y=245)
 
 
 eingabeFrame.place(x=1, y=1)

@@ -5,7 +5,8 @@ Läuft Lokal
 
         - Ist Situation:
 
-        - Dieses Programm besteht aus einer grafischen Oberfläche in welcher man PersonalNr, Vorname, Nachname und Geburtsdatum (yyyy-mm-dd) eingeben, suchen, löschen und bearbeiten kann.
+        - Dieses Programm besteht aus einer grafischen Oberfläche in welcher man PersonalNr, Vorname, Nachname und Geburtsdatum
+          (yyyy-mm-dd) eingeben, suchen, löschen und bearbeiten kann.
 
         - Hinzufügen von Daten benötigt keine Nummerneingabe / wird automatisch vom Datenbanksystem erstellt.
 

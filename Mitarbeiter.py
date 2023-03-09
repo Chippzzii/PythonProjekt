@@ -200,7 +200,7 @@ def mitarbeiterGUI():
                     self.gebDatumEntry = tk.Entry(master=eingabeFrame, width=20, font="ComicSans")
                     vornameLabel = tk.Label(master=eingabeFrame, text="Vorname")
                     nachnameLabel = tk.Label(master=eingabeFrame, text="Nachname")
-                    nummerLabel = tk.Label(master=eingabeFrame, text="Laufende Nummer")
+                    nummerLabel = tk.Label(master=eingabeFrame, text="PersonalNr")
                     gebDatumLabel = tk.Label(master=eingabeFrame, text="Geburtsdatum")
                     addButton = tk.Button(master=eingabeFrame, text="Hinzufügen", width=11, command=self.addButtonAction)
                     searchButton = tk.Button(master=eingabeFrame, text="Suchen", width=11, command=self.searchButtonAction)

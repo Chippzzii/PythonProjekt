@@ -1,0 +1,31 @@
+Für die Benutzung dieses Programms wird XAMPP benötigt.
+Module Apache und MySQL müssen gestartet sein.
+Python Interpreter 3.10
+Läuft Lokal
+
+        - Ist Situation:
+
+        - Dieses Programm besteht aus einer grafischen Oberfläche in welcher man PersonalNr, Vorname, Nachname und Geburtsdatum (yyyy-mm-dd) eingeben, suchen, löschen und bearbeiten kann.
+
+        - Hinzufügen von Daten benötigt keine Nummerneingabe / wird automatisch vom Datenbanksystem erstellt.
+
+        - Alle eingegebenen Daten werden direkt in der lokalen Datenbank gespeichert, verändert oder gelöscht.
+
+        - Die Liste aktualisiert sich nach jeder Aktion.
+
+        - Jede Aktion wird ohne Nachfrage ausgeführt.
+
+        - Wenn die Eingabefelder leer sind passiert nichts. (Für Entwickler: Info in Terminal)
+
+        - Suchen während alle Eingabefelder leer sind, gibt alle Daten aus der Datenbank im Listenfenster zurück.
+
+
+
+    * Optionale/Mögliche Erweiterungen:
+    * Clean-Code: "Main/Mitarbeiter" aufräumen und Funktionen auslagern.
+    * Variablen Datenbank Namen vergeben zur Auswahl in welcher Datenbank man arbeiten möchte.
+
+
+
+
+

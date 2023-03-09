@@ -276,8 +276,6 @@ try:
         zeiger.execute(sql)
         zeiger.execute(sqlZwei)
 
-
-
 except mysql.connector.Error as err:
     print("Fehler beim Verbinden zur Datenbank!")
     print(err)

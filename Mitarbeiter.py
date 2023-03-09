@@ -80,10 +80,20 @@ def mitarbeiterGUI():
                 else:
                     return False
 
+            def searchPlatzhalter(self):
+                platzhalter = []
+                for mitarbeiter in cursor:
+                    platzhalter.append(mitarbeiter)
+                for i in range(0, len(platzhalter), 1):
+                    persNummer = platzhalter[i][0]
+                    vorname = platzhalter[i][1]
+                    nachname = platzhalter[i][2]
+                    gebDatum = platzhalter[i][3]
+                    self.tree.insert('', i, values=(persNummer, vorname, nachname, gebDatum))
+
 
             class gui:
                 def addButtonAction(self):
-                    # ToDo: Überprüfung auf Doppelte Datensätze
                     if (self.nachnameEntry.get() == ""):
                         print("Leere Eingabe")
                     else:
@@ -95,74 +105,46 @@ def mitarbeiterGUI():
 
                 def searchButtonAction(self):
                     deleteAll(self)
-                    if self.nummerEntry.get():
+                    if self.vornameEntry.get() and self.nachnameEntry.get():
+                        vorname = self.vornameEntry.get()
+                        nachname = self.nachnameEntry.get()
+                        sql = "SELECT * FROM mitarbeiter WHERE Vorname = %s and Nachname = %s"
+                        cursor.execute(sql, (vorname, nachname))
+                        searchPlatzhalter(self)
+
+                    elif self.vornameEntry.get() and self.gebDatumEntry.get():
+                        vorname = self.vornameEntry.get()
+                        gebDatum = self.gebDatumEntry.get()
+                        sql = "SELECT * FROM mitarbeiter WHERE Vorname = %s and Geburtsdatum = %s"
+                        cursor.execute(sql, (vorname, gebDatum))
+                        searchPlatzhalter(self)
+
+                    elif self.nachnameEntry.get() and self.gebDatumEntry.get():
+                        nachname = self.nachnameEntry.get()
+                        gebDatum = self.gebDatumEntry.get()
+                        sql = "SELECT * FROM mitarbeiter WHERE Nachname = %s and Geburtsdatum = %s"
+                        cursor.execute(sql, (nachname, gebDatum))
+                        searchPlatzhalter(self)
+
+                    elif self.nummerEntry.get():
                         nummer = self.nummerEntry.get()
                         sql = "SELECT * FROM mitarbeiter WHERE PersonalNr = " + nummer
                         cursor.execute(sql)
-                        platzhalter = []
-                        for mitarbeiter in cursor:
-                            platzhalter.append(mitarbeiter)
-                        for i in range(0, len(platzhalter), 1):
-                            persNummer = platzhalter[i][0]
-                            vorname = platzhalter[i][1]
-                            nachname = platzhalter[i][2]
-                            gebDatum = platzhalter[i][3]
-                            self.tree.insert('', i, values=(persNummer, vorname, nachname, gebDatum))
+                        searchPlatzhalter(self)
 
-                    elif self.vornameEntry.get():
+                    elif self.vornameEntry.get() or self.nachnameEntry.get() or self.gebDatumEntry.get():
+                        nummer = self.nummerEntry.get()
                         vorname = self.vornameEntry.get()
-                        sql = "SELECT * FROM mitarbeiter WHERE Vorname = '" + vorname + "'"
-                        cursor.execute(sql)
-                        platzhalter = []
-                        for mitarbeiter in cursor:
-                            platzhalter.append(mitarbeiter)
-                        for i in range(0, len(platzhalter), 1):
-                            persNummer = platzhalter[i][0]
-                            vorname = platzhalter[i][1]
-                            nachname = platzhalter[i][2]
-                            gebDatum = platzhalter[i][3]
-                            self.tree.insert('', i, values=(persNummer, vorname, nachname, gebDatum))
-
-                    elif self.nachnameEntry.get():
                         nachname = self.nachnameEntry.get()
-                        sql = "SELECT * FROM mitarbeiter WHERE Nachname = '" + nachname + "'"
-                        cursor.execute(sql)
-                        platzhalter = []
-                        for mitarbeiter in cursor:
-                            platzhalter.append(mitarbeiter)
-                        for i in range(0, len(platzhalter), 1):
-                            persNummer = platzhalter[i][0]
-                            vorname = platzhalter[i][1]
-                            nachname = platzhalter[i][2]
-                            gebDatum = platzhalter[i][3]
-                            self.tree.insert('', i, values=(persNummer, vorname, nachname, gebDatum))
-
-                    elif self.gebDatumEntry.get():
                         gebDatum = self.gebDatumEntry.get()
-                        sql = "SELECT * FROM mitarbeiter WHERE Geburtsdatum = '" + gebDatum + "'"
-                        cursor.execute(sql)
-                        platzhalter = []
-                        for mitarbeiter in cursor:
-                            platzhalter.append(mitarbeiter)
-                        for i in range(0, len(platzhalter), 1):
-                            persNummer = platzhalter[i][0]
-                            vorname = platzhalter[i][1]
-                            nachname = platzhalter[i][2]
-                            gebDatum = platzhalter[i][3]
-                            self.tree.insert('', i, values=(persNummer, vorname, nachname, gebDatum))
+                        sql = "SELECT * FROM mitarbeiter WHERE PersonalNr = %s OR Vorname = %s OR Nachname = %s OR Geburtsdatum = %s"
+                        values = nummer, vorname, nachname, gebDatum
+                        cursor.execute(sql, values)
+                        searchPlatzhalter(self)
                     else:
                         sql = "SELECT * FROM mitarbeiter"
                         cursor.execute(sql)
-                        platzhalter = []
-                        for mitarbeiter in cursor:
-                            platzhalter.append(mitarbeiter)
-
-                        for i in range(0, len(platzhalter), 1):
-                            persNummer = platzhalter[i][0]
-                            vorname = platzhalter[i][1]
-                            nachname = platzhalter[i][2]
-                            gebDatum = platzhalter[i][3]
-                            self.tree.insert('', i, values=(persNummer, vorname, nachname, gebDatum))
+                        searchPlatzhalter(self)
 
                     self.nummerEntry.delete(0, END)
                     self.vornameEntry.delete(0, END)

@@ -8,7 +8,8 @@ Programm muss zwei mal gestartet werden sofern die Datenbank noch nicht vorhande
 
 Ausblick:
 Variablen Datenbank Namen vergeben
-Programm startet auch wenn Datenbank nicht vorhanden.
+
+Programm startet auch wenn Datenbank nicht vorhanden. //commit restartAfterDatabaseCreation
 
 Optional:
 "Main" aufräumen und Funktionen auslagern.

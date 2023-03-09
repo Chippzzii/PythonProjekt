@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk, END
 import mysql.connector
 
+
 def mitarbeiterGUI():
     try:
         dbms = mysql.connector.Connect(
@@ -13,8 +14,6 @@ def mitarbeiterGUI():
         zeiger.execute("SHOW DATABASES")
         data = zeiger.fetchall()
         datenbank = "mitarbeiter_db"
-        # for db in data:
-        #     print(db)
 
         if (datenbank,) in data:
             print("Datenbank ist vorhanden.")
@@ -26,12 +25,10 @@ def mitarbeiterGUI():
             )
             cursor = db.cursor()
 
-
             def deleteAll(self):
                 for item in self.tree.get_children():
                     if item != '':
                         self.tree.delete(item)
-
 
             def preLoadData():
                 sql = "SELECT * FROM mitarbeiter"
@@ -40,12 +37,10 @@ def mitarbeiterGUI():
                 data = [row for row in cursor]
                 return column_names, data
 
-
             def inTreviewSchreiben(treeview):
                 column_names, data = preLoadData()
                 for i, row in enumerate(data):
                     treeview.insert("", "end", text=str(i + 1), values=row)
-
 
             def addData(self):
                 vorname = self.vornameEntry.get()
@@ -60,18 +55,15 @@ def mitarbeiterGUI():
                 cursor.execute(sql, (vorname, nachname, gebDatum))
                 cursor.execute("COMMIT;")
 
-
             def updateListe(self):
                 deleteAll(self)
                 preLoadData()
                 inTreviewSchreiben(self.tree)
 
-
             def doppelteDaten(self):
                 vorname = self.vornameEntry.get()
                 nachname = self.nachnameEntry.get()
                 gebDatum = self.gebDatumEntry.get()
-
                 sql = "SELECT * FROM mitarbeiter WHERE Vorname = %s AND Nachname = %s AND Geburtsdatum = %s"
                 cursor.execute(sql, (vorname, nachname, gebDatum))
                 ergebnis = cursor.fetchone()
@@ -90,7 +82,6 @@ def mitarbeiterGUI():
                     nachname = platzhalter[i][2]
                     gebDatum = platzhalter[i][3]
                     self.tree.insert('', i, values=(persNummer, vorname, nachname, gebDatum))
-
 
             class gui:
                 def addButtonAction(self):
@@ -172,7 +163,6 @@ def mitarbeiterGUI():
                     if (self.nummerEntry.get()):
                         nummer = self.nummerEntry.get()
                         sql = "DELETE from mitarbeiter WHERE PersonalNr = %s"
-                        print(sql % (nummer))
                         cursor.execute(sql % (nummer))
                         cursor.execute("COMMIT;")
                         self.nummerEntry.delete(0, END)
@@ -204,8 +194,7 @@ def mitarbeiterGUI():
                     # Frame und Widgets für die Eingabe
                     eingabeFrame = tk.Frame(width=200, height=348)
                     # master bestimmt zugehörigkeit
-                    self.nummerEntry = tk.Entry(master=eingabeFrame, width=20,
-                                                font="ComicSans")  # Schriftart bestimmt größe des Entry Fensters
+                    self.nummerEntry = tk.Entry(master=eingabeFrame, width=20, font="ComicSans")  # Schriftart bestimmt größe des Entry Fensters
                     self.vornameEntry = tk.Entry(master=eingabeFrame, width=20, font="ComicSans")
                     self.nachnameEntry = tk.Entry(master=eingabeFrame, width=20, font="ComicSans")
                     self.gebDatumEntry = tk.Entry(master=eingabeFrame, width=20, font="ComicSans")
@@ -217,13 +206,11 @@ def mitarbeiterGUI():
                     searchButton = tk.Button(master=eingabeFrame, text="Suchen", width=11, command=self.searchButtonAction)
                     saveButton = tk.Button(master=eingabeFrame, text="Speichern", width=11, command=self.saveButtonAction)
                     deleteButton = tk.Button(master=eingabeFrame, text="Löschen", width=11, command=self.deleteButtonAction)
-
                     # ---------------------------------------------------------
                     # Frame für Buttons und AnzigeListe der Personen
                     anzeigeFrame = tk.Frame(width=397, height=348)
                     columns = ('Nummer', 'Vorname', 'Nachname', 'Geburtsdatum')
-                    self.tree = ttk.Treeview(master=anzeigeFrame, columns=columns, show='headings', height=12,
-                                             selectmode='browse')
+                    self.tree = ttk.Treeview(master=anzeigeFrame, columns=columns, show='headings', height=12, selectmode='browse')
                     self.tree.bind('<Double-1>', self.treeSelection)
                     self.tree.heading('Nummer', text='Nummer', anchor='w')
                     self.tree.heading('Vorname', text='Vorname', anchor='w')
@@ -253,6 +240,7 @@ def mitarbeiterGUI():
                     anzeigeFrame.place(x=202, y=1)
                     inTreviewSchreiben(self.tree)
                     mitarbeiter.mainloop()
+
             dbms.close()
 
         else:
@@ -274,7 +262,6 @@ def mitarbeiterGUI():
     except mysql.connector.Error as err:
         print("Fehler beim Verbinden zur Datenbank!")
         print(err)
-
 
     gui()
 

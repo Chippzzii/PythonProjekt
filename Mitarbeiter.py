@@ -3,13 +3,19 @@ from tkinter import ttk, END
 
 import mysql.connector
 
-db = mysql.connector.Connect(
-    host="localhost",
-    user="root",
-    password="",
-    database="mitarbeiter_db"
-)
-cursor = db.cursor()
+try:
+    db = mysql.connector.Connect(
+        db=mysql.connector.Connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="mitarbeiter_db"
+        )
+
+    )
+    cursor = db.cursor()
+except mysql.connector.Error as err:
+    print("Fehler beim Verbinden zur Datenbank!")
 
 
 def deleteAll(self):
@@ -29,28 +35,33 @@ def inTreviewSchreiben(treeview):
     for i, row in enumerate(data):
         treeview.insert("", "end", text=str(i+1), values=row)
 
+def addData(self):
+    vorname = self.vornameEntry.get()
+    nachname = self.nachnameEntry.get()
+    gebDatum = self.gebDatumEntry.get()
+    print("Daten:", vorname, nachname, gebDatum)
+    self.nummerEntry.delete(0, END)
+    self.vornameEntry.delete(0, END)
+    self.nachnameEntry.delete(0, END)
+    self.gebDatumEntry.delete(0, END)
+    sql = "INSERT INTO mitarbeiter(Vorname, Nachname, Geburtsdatum) VALUES(%s, %s, %s)"
+    cursor.execute(sql, (vorname, nachname, gebDatum))
+    cursor.execute("COMMIT;")
+
+def updateListe(self):
+    deleteAll(self)
+    preLoadData()
+    inTreviewSchreiben(self.tree)
+
 
 class gui:
-    # ToDo TreeView überschreiben
     def addButtonAction(self):
         # ToDo: Überprüfung auf Doppelte Datensätze
-        # nummer = self.nummerEntry.get()
-        if(self.nummerEntry.get() != "" and self.vornameEntry.get() != "" and self.nachnameEntry.get() != "" and self.gebDatumEntry.get() != ""):
-            vorname = self.vornameEntry.get()
-            nachname = self.nachnameEntry.get()
-            gebDatum = self.gebDatumEntry.get()
-            print("Daten:", vorname, nachname, gebDatum)
-            self.nummerEntry.delete(0, END)
-            self.vornameEntry.delete(0, END)
-            self.nachnameEntry.delete(0, END)
-            self.gebDatumEntry.delete(0, END)
-            sql = "INSERT INTO mitarbeiter(Vorname, Nachname, Geburtsdatum) VALUES(%s, %s, %s)"
-            cursor.execute(sql, (vorname, nachname, gebDatum))
-            cursor.execute("COMMIT;")
-        else:
+        if(self.nachnameEntry.get() == ""):
             print("Leere Eingabe")
-
-
+        else:
+            addData(self)
+            updateListe(self)
     def searchButtonAction(self):
         deleteAll(self)
         if self.nummerEntry.get():
@@ -128,17 +139,21 @@ class gui:
         self.gebDatumEntry.delete(0, END)
 
     def saveButtonAction(self):
-        nummer = self.nummerEntry.get()
-        vorname = self.vornameEntry.get()
-        nachname = self.nachnameEntry.get()
-        gebDatum = self.gebDatumEntry.get()
-        sql = "UPDATE mitarbeiter SET Vorname = '%s', Nachname = '%s', Geburtsdatum = '%s' WHERE PersonalNr = " + nummer
-        cursor.execute(sql % (vorname, nachname, gebDatum))
-        cursor.execute("COMMIT;")
-        self.nummerEntry.delete(0, END)
-        self.vornameEntry.delete(0, END)
-        self.nachnameEntry.delete(0, END)
-        self.gebDatumEntry.delete(0, END)
+        if(self.nummerEntry.get()):
+            nummer = self.nummerEntry.get()
+            vorname = self.vornameEntry.get()
+            nachname = self.nachnameEntry.get()
+            gebDatum = self.gebDatumEntry.get()
+            sql = "UPDATE mitarbeiter SET Vorname = '%s', Nachname = '%s', Geburtsdatum = '%s' WHERE PersonalNr = " + nummer
+            cursor.execute(sql % (vorname, nachname, gebDatum))
+            cursor.execute("COMMIT;")
+            self.nummerEntry.delete(0, END)
+            self.vornameEntry.delete(0, END)
+            self.nachnameEntry.delete(0, END)
+            self.gebDatumEntry.delete(0, END)
+            updateListe(self)
+        else:
+            print("Leere Felder")
 
     def deleteButtonAction(self):
         if(self.nummerEntry.get()):
@@ -151,6 +166,7 @@ class gui:
             self.vornameEntry.delete(0, END)
             self.nachnameEntry.delete(0, END)
             self.gebDatumEntry.delete(0, END)
+            updateListe(self)
         else:
             print("Leere Zeile!")
 

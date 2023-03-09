@@ -60,6 +60,19 @@ try:
             preLoadData()
             inTreviewSchreiben(self.tree)
 
+        def doppelteDaten(self):
+            vorname = self.vornameEntry.get()
+            nachname = self.nachnameEntry.get()
+            gebDatum = self.gebDatumEntry.get()
+
+            sql = "SELECT * FROM mitarbeiter WHERE Vorname = %s AND Nachname = %s AND Geburtsdatum = %s"
+            cursor.execute(sql, (vorname, nachname, gebDatum))
+            ergebnis = cursor.fetchone()
+            if ergebnis:
+                return True
+            else:
+                return False
+
 
         class gui:
             def addButtonAction(self):
@@ -67,8 +80,11 @@ try:
                 if(self.nachnameEntry.get() == ""):
                     print("Leere Eingabe")
                 else:
-                    addData(self)
-                    updateListe(self)
+                    if(doppelteDaten(self)):
+                        print("Datensatz ist bereits vorhanden.")
+                    else:
+                        addData(self)
+                        updateListe(self)
             def searchButtonAction(self):
                 deleteAll(self)
                 if self.nummerEntry.get():

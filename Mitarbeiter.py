@@ -1,22 +1,46 @@
 import tkinter as tk
 from tkinter import ttk, END
-
 import mysql.connector
 
 try:
-    db = mysql.connector.Connect(
-        db=mysql.connector.Connect(
-            host="localhost",
-            user="root",
-            password="",
-            database="mitarbeiter_db"
-        )
-
+    dbms = mysql.connector.Connect(
+        host="localhost",
+        user="root",
+        password=""
     )
-    cursor = db.cursor()
+    zeiger = dbms.cursor()
+    zeiger.execute("SHOW DATABASES")
+    data = zeiger.fetchall()
+    datenbank = "mitarbeiter_db"
+    # for db in data:
+    #     print(db)
+    for daten in data:
+        if datenbank in daten:
+            print("Datenbank ist vorhanden.")
+            db = mysql.connector.Connect(
+                            host="localhost",
+                            user="root",
+                            password="",
+                            database="mitarbeiter_db"
+                            )
+            cursor = db.cursor()
+            break
+        else:
+            print("Datenbank nicht gefunden, wird neu erstellt.")
+                # CREATE DATABASE mitarbeiter_db;
+                # CREATE TABLE mitarbeiter_db.mitarbeiter(
+                # PersonalNr int(11) NOT NULL,
+                # Vorname VARCHAR(50),
+                # Nachname VARCHAR(50) NOT NULL,
+                # Geburtsdatum DATE,
+                # PRIMARY KEY (PersonalNr)
+                # );
+
+
+
 except mysql.connector.Error as err:
     print("Fehler beim Verbinden zur Datenbank!")
-
+    print(err)
 
 def deleteAll(self):
     for item in self.tree.get_children():
@@ -236,8 +260,7 @@ class gui:
         self.tree.place(x=5, y=35)
         eingabeFrame.place(x=1, y=1)
         anzeigeFrame.place(x=202, y=1)
-        #PreloadDaten
-        inTreviewSchreiben(self.tree)
+        # inTreviewSchreiben(self.tree)
         mitarbeiter.mainloop()
 
 gui()

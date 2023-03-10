@@ -119,8 +119,8 @@ def mitarbeiterGUI():
 
                     elif self.nummerEntry.get():
                         nummer = self.nummerEntry.get()
-                        sql = "SELECT * FROM mitarbeiter WHERE PersonalNr = " + nummer
-                        cursor.execute(sql)
+                        sql = "SELECT * FROM mitarbeiter WHERE PersonalNr = %s"
+                        cursor.execute(sql, (nummer))
                         searchPlatzhalter(self)
 
                     elif self.vornameEntry.get() or self.nachnameEntry.get() or self.gebDatumEntry.get():
@@ -148,8 +148,8 @@ def mitarbeiterGUI():
                         vorname = self.vornameEntry.get()
                         nachname = self.nachnameEntry.get()
                         gebDatum = self.gebDatumEntry.get()
-                        sql = "UPDATE mitarbeiter SET Vorname = '%s', Nachname = '%s', Geburtsdatum = '%s' WHERE PersonalNr = " + nummer
-                        cursor.execute(sql % (vorname, nachname, gebDatum))
+                        sql = "UPDATE mitarbeiter SET Vorname = '%s', Nachname = '%s', Geburtsdatum = '%s' WHERE PersonalNr = %s"
+                        cursor.execute(sql % (vorname, nachname, gebDatum, nummer))
                         cursor.execute("COMMIT;")
                         self.nummerEntry.delete(0, END)
                         self.vornameEntry.delete(0, END)
@@ -188,8 +188,13 @@ def mitarbeiterGUI():
                 def __init__(self):
                     mitarbeiter = tk.Tk()
                     mitarbeiter.title("MitarbeiterDatei")
-                    mitarbeiter.minsize(width=600, height=325)
+                    mitarbeiter.minsize(width=600, height=400)
                     mitarbeiter.resizable(width=False, height=False)
+                    # ---------------------------------------------------------
+                    # Frame und Widgets für die Eingabe
+                    datenbankFrame = tk.Frame(width=300, height=75)
+                    self.datenbankEntry = tk.Entry(master=datenbankFrame, width=20, font="ComicSans")
+                    self.datenbankEingabeLabel = tk.Label(master=datenbankFrame, text="Datenbank")
                     # ---------------------------------------------------------
                     # Frame und Widgets für die Eingabe
                     eingabeFrame = tk.Frame(width=200, height=348)
@@ -236,8 +241,14 @@ def mitarbeiterGUI():
                     saveButton.place(x=10, y=275)
                     deleteButton.place(x=108, y=275)
                     self.tree.place(x=5, y=35)
-                    eingabeFrame.place(x=1, y=1)
-                    anzeigeFrame.place(x=202, y=1)
+
+                    self.datenbankEingabeLabel.place(x=10, y=15)
+                    self.datenbankEntry.place(x=10, y=40)
+
+
+                    datenbankFrame.place(x=1, y=1)
+                    eingabeFrame.place(x=1, y=76)
+                    anzeigeFrame.place(x=202, y=76)
                     inTreviewSchreiben(self.tree)
                     mitarbeiter.mainloop()
 
